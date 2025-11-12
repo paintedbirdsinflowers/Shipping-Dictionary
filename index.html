@@ -4,171 +4,364 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shipping Directory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #fdf6f0;
-      --card: #fffafa;
-      --accent: #a5b4fc;  /* lavender */
-      --accent-hover: #818cf8;
-      --text: #4b5563;
-      --subtext: #6b7280;
+      --card: rgba(255, 250, 250, 0.85);
+      --card-border: rgba(255, 255, 255, 0.3);
+      --accent: #c084fc;
+      --accent-hover: #a78bfa;
+      --text: #4c1d95;
+      --subtext: #7c3aed;
+      --heart: #e11d48;
+      --shadow: 0 8px 32px rgba(0,0,0,0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a0033;
+      --card: rgba(30, 0, 60, 0.7);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text: #e0d4ff;
+      --subtext: #c4b5fd;
+      --heart: #f87171;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: "Poppins", system-ui, sans-serif;
+      font-family: 'Poppins', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      margin: 0;
-      padding: 1rem;
+      min-height: 100vh;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 60, 200, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(200, 100, 250, 0.1) 0%, transparent 50%);
+      transition: var(--transition);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
     }
 
     h1 {
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: var(--accent-hover);
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
     }
 
     input[type="text"] {
-      display: block;
-      margin: 0 auto 1.5rem auto;
-      padding: 0.6rem 1rem;
-      width: 90%;
-      max-width: 400px;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      max-width: 420px;
       font-size: 1rem;
-      border-radius: 10px;
       border: 2px solid var(--accent);
-      background: #fff;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
       outline: none;
-      transition: 0.2s;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
     input[type="text"]:focus {
       border-color: var(--accent-hover);
-      box-shadow: 0 0 6px var(--accent-hover);
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.3);
+      transform: scale(1.02);
+    }
+
+    .theme-toggle {
+      background: var(--card);
+      border: 2px solid var(--card-border);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.4rem;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    #directory {
+      display: grid;
+      gap: 1.2rem;
+      margin-top: 1rem;
     }
 
     .fandom {
       background: var(--card);
-      border-radius: 14px;
-      padding: 1rem 1.2rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
-      transition: transform 0.2s;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 1.2rem 1.4rem;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.5s ease-out forwards;
+      transition: var(--transition);
     }
 
     .fandom:hover {
-      transform: translateY(-2px);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
     }
 
     .fandom h2 {
       margin: 0;
       cursor: pointer;
-      color: var(--accent-hover);
-      font-size: 1.2rem;
+      color: var(--text);
+      font-size: 1.35rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .fandom h2 .heart {
+      font-size: 1.3rem;
+      transition: var(--transition);
+    }
+
+    .fandom h2 .heart.filled {
+      color: var(--heart);
+      animation: heartbeat 0.6s ease;
     }
 
     .ships {
-      margin-top: 0.6rem;
-      padding-left: 1rem;
+      margin-top: 0.8rem;
+      padding-left: 1.2rem;
       display: none;
+      animation: slideDown 0.4s ease-out;
     }
 
     .ships li {
-      margin: 0.25rem 0;
+      margin: 0.35rem 0;
       color: var(--subtext);
-      list-style-type: "Heart ";
+      list-style: none;
+      position: relative;
+      padding-left: 1.8rem;
+      transition: var(--transition);
     }
 
-    footer {
-      text-align: center;
-      color: var(--subtext);
-      margin-top: 2rem;
+    .ships li::before {
+      content: "Heart";
+      position: absolute;
+      left: 0;
+      color: var(--heart);
       font-size: 0.9rem;
+    }
+
+    .ships li.highlight {
+      background: linear-gradient(120deg, rgba(167,139,250,0.2), rgba(196,181,253,0.2));
+      border-radius: 8px;
+      padding: 0.2rem 0.5rem;
+      margin: 0.35rem 0;
+      display: inline-block;
+      width: fit-content;
     }
 
     .no-matches {
       text-align: center;
-      margin-top: 2rem;
+      font-size: 1.1rem;
       color: var(--subtext);
+      padding: 2rem;
+      font-style: italic;
+    }
+
+    .loading {
+      text-align: center;
+      color: var(--subtext);
+      font-style: italic;
+      padding: 2rem;
+    }
+
+    .loading::after {
+      content: "";
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 3px solid var(--accent);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      margin: 3rem 0 1rem;
+      color: var(--subtext);
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; max-height: 0; }
+      to { opacity: 1; max-height: 500px; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .controls { flex-direction: column; }
+      input[type="text"] { max-width: 100%; }
     }
   </style>
 </head>
 <body>
-  <h1>Fandom Shipping Directory </h1>
-  <input type="text" id="search" placeholder="Search fandoms or ships...">
-  <div id="directory">Loading...</div>
+  <div class="container">
+    <header>
+      <h1>Fandom Shipping Directory</h1>
+      <div class="controls">
+        <input type="text" id="search" placeholder="Search ships or fandoms...">
+        <div class="theme-toggle" id="themeToggle">Moon</div>
+      </div>
+    </header>
 
-  <footer>Shipping Dictionary</footer>
+    <div id="directory" class="loading">Loading ships...</div>
+
+    <footer>Made with Heart for shippers everywhere</footer>
+  </div>
 
   <script>
     let allData = {};
+    const directory = document.getElementById("directory");
+    const searchInput = document.getElementById("search");
+    const themeToggle = document.getElementById("themeToggle");
 
+    // Theme toggle
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.getAttribute("data-theme") === "dark";
+      document.body.setAttribute("data-theme", isDark ? "light" : "dark");
+      themeToggle.textContent = isDark ? "Moon" : "Sun";
+    });
+
+    // Load ships
     async function loadShips() {
-      const container = document.getElementById("directory");
       try {
-        const response = await fetch("ships.json");
-        if (!response.ok) throw new Error("File not found");
-        const data = await response.json();
+        const res = await fetch("ships.json");
+        if (!res.ok) throw new Error("Not found");
+        const data = await res.json();
         allData = data;
-        renderDirectory(allData);
+        render(allData);
+        directory.className = "";
       } catch (e) {
-        container.textContent = "Error loading ships.json";
+        directory.innerHTML = "<p class='no-matches'>Error loading ships.json</p>";
       }
     }
 
-    function renderDirectory(data, filter = "") {
-      const container = document.getElementById("directory");
-      container.innerHTML = "";
-
+    // Render with highlight
+    function render(data, query = "") {
+      directory.innerHTML = "";
+      const lower = query.toLowerCase();
       const fandoms = Object.keys(data).sort();
-      let matchCount = 0;
+
+      let visible = 0;
+      let delay = 0;
 
       fandoms.forEach(fandom => {
-        const ships = data[fandom].sort();
-        const fandomMatch = fandom.toLowerCase().includes(filter);
-        const shipMatches = ships.filter(ship => ship.toLowerCase().includes(filter));
+        const ships = data[fandom];
+        const fandomMatch = fandom.toLowerCase().includes(lower);
+        const matches = ships.filter(s => s.toLowerCase().includes(lower));
 
-        if (fandomMatch || shipMatches.length > 0 || filter === "") {
-          matchCount++;
+        if (!query || fandomMatch || matches.length) {
+          visible++;
           const div = document.createElement("div");
           div.className = "fandom";
+          div.style.animationDelay = `${delay}s`;
+          delay += 0.05;
 
-          const title = document.createElement("h2");
-          title.textContent = fandom;
+          const h2 = document.createElement("h2");
+          h2.innerHTML = `${fandom} <span class="heart">Heart</span>`;
 
-          const list = document.createElement("ul");
-          list.className = "ships";
+          const ul = document.createElement("ul");
+          ul.className = "ships";
 
-          (fandomMatch ? ships : shipMatches).forEach(ship => {
+          const toShow = fandomMatch ? ships : matches;
+          toShow.forEach(ship => {
             const li = document.createElement("li");
-            li.textContent = ship;
-            list.appendChild(li);
+            if (query && ship.toLowerCase().includes(lower)) {
+              li.classList.add("highlight");
+              const regex = new RegExp(`(${query})`, "gi");
+              li.innerHTML = ship.replace(regex, "<mark>$1</mark>");
+            } else {
+              li.textContent = ship;
+            }
+            ul.appendChild(li);
           });
 
-          title.onclick = () => {
-            list.style.display = list.style.display === "none" ? "block" : "none";
+          const heart = h2.querySelector(".heart");
+          h2.onclick = () => {
+            const open = ul.style.display === "block";
+            ul.style.display = open ? "none" : "block";
+            heart.classList.toggle("filled", !open);
           };
 
-          div.appendChild(title);
-          div.appendChild(list);
-          container.appendChild(div);
+          div.appendChild(h2);
+          div.appendChild(ul);
+          directory.appendChild(div);
         }
       });
 
-      if (matchCount === 0) {
-        container.innerHTML = "<p class='no-matches'>No matches found</p>";
+      if (!visible) {
+        directory.innerHTML = `<p class='no-matches'>No ships found for "${query}"</p>`;
       }
     }
 
-    document.getElementById("search").addEventListener("input", (e) => {
-      const filter = e.target.value.toLowerCase();
-      renderDirectory(allData, filter);
+    // Search
+    let timeout;
+    searchInput.addEventListener("input", e => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => render(allData, e.target.value), 200);
     });
 
+    // Start
     loadShips();
   </script>
 </body>
