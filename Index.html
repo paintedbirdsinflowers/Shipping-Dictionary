@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shipping Directory</title>
+  <style>
+    :root {
+      --bg: #fdf6f0;
+      --card: #fffafa;
+      --accent: #a5b4fc;  /* lavender */
+      --accent-hover: #818cf8;
+      --text: #4b5563;
+      --subtext: #6b7280;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-hover);
+    }
+
+    input[type="text"] {
+      display: block;
+      margin: 0 auto 1.5rem auto;
+      padding: 0.6rem 1rem;
+      width: 90%;
+      max-width: 400px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      background: #fff;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent-hover);
+      box-shadow: 0 0 6px var(--accent-hover);
+    }
+
+    .fandom {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    .fandom:hover {
+      transform: translateY(-2px);
+    }
+
+    .fandom h2 {
+      margin: 0;
+      cursor: pointer;
+      color: var(--accent-hover);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ships {
+      margin-top: 0.6rem;
+      padding-left: 1rem;
+      display: none;
+    }
+
+    .ships li {
+      margin: 0.25rem 0;
+      color: var(--subtext);
+      list-style-type: "💞 ";
+    }
+
+    footer {
+      text-align: center;
+      color: var(--subtext);
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .no-matches {
+      text-align: center;
+      margin-top: 2rem;
+      color: var(--subtext);
+    }
+  </style>
+</head>
+<body>
+  <h1>Fandom Shipping Directory </h1>
+  <input type="text" id="search" placeholder="Search fandoms or ships...">
+  <div id="directory">Loading...</div>
+
+  <footer>Shipping Dictionary</footer>
+
+  <script>
+    let allData = {};
+
+    async function loadShips() {
+      const container = document.getElementById("directory");
+      try {
+        const response = await fetch("ships.json");
+        const data = await response.json();
+        allData = data;
+        renderDirectory(allData);
+      } catch (e) {
+        container.textContent = "Error loading ships.json 😢";
+      }
+    }
+
+    function renderDirectory(data, filter = "") {
+      const container = document.getElementById("directory");
+      container.innerHTML = "";
+
+      const fandoms = Object.keys(data).sort();
+      let matchCount = 0;
+
+      fandoms.forEach(fandom => {
+        const ships = data[fandom].sort();
+        const fandomMatch = fandom.toLowerCase().includes(filter);
+        const shipMatches = ships.filter(ship => ship.toLowerCase().includes(filter));
+
+        if (fandomMatch || shipMatches.length > 0 || filter === "") {
+          matchCount++;
+          const div = document.createElement("div");
+          div.className = "fandom";
+
+          const title = document.createElement("h2");
+          title.textContent = fandom;
+
+          const list = document.createElement("ul");
+          list.className = "ships";
+
+          (fandomMatch ? ships : shipMatches).forEach(ship => {
+            const li = document.createElement("li");
+            li.textContent = ship;
+            list.appendChild(li);
+          });
+
+          title.onclick = () => {
+            list.style.display = list.style.display === "none" ? "block" : "none";
+          };
+
+          div.appendChild(title);
+          div.appendChild(list);
+          container.appendChild(div);
+        }
+      });
+
+      if (matchCount === 0) {
+        container.innerHTML = "<p class='no-matches'>No matches found 💔</p>";
+      }
+    }
+
+    document.getElementById("search").addEventListener("input", (e) => {
+      const filter = e.target.value.toLowerCase();
+      renderDirectory(allData, filter);
+    });
+
+    loadShips();
+  </script>
+</body>
+</html>
