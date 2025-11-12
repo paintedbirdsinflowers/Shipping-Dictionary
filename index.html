@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shipping Directory</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #fdf6f0;
@@ -72,17 +71,6 @@
       justify-content: space-between;
     }
 
-    .fandom h2::after {
-      content: "▼";
-      font-size: 0.8rem;
-      margin-left: 0.5rem;
-      transition: transform 0.2s;
-    }
-
-    .fandom.open h2::after {
-      transform: rotate(180deg);
-    }
-
     .ships {
       margin-top: 0.6rem;
       padding-left: 1rem;
@@ -92,7 +80,7 @@
     .ships li {
       margin: 0.25rem 0;
       color: var(--subtext);
-      list-style-type: "Heart";
+      list-style-type: "Heart ";
     }
 
     footer {
@@ -110,7 +98,7 @@
   </style>
 </head>
 <body>
-  <h1>Fandom Shipping Directory</h1>
+  <h1>Fandom Shipping Directory </h1>
   <input type="text" id="search" placeholder="Search fandoms or ships...">
   <div id="directory">Loading...</div>
 
@@ -123,12 +111,11 @@
       const container = document.getElementById("directory");
       try {
         const response = await fetch("ships.json");
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) throw new Error("File not found");
         const data = await response.json();
         allData = data;
         renderDirectory(allData);
       } catch (e) {
-        console.error(e);
         container.textContent = "Error loading ships.json";
       }
     }
@@ -137,18 +124,16 @@
       const container = document.getElementById("directory");
       container.innerHTML = "";
 
-      const lowerFilter = filter.toLowerCase();
       const fandoms = Object.keys(data).sort();
       let matchCount = 0;
 
       fandoms.forEach(fandom => {
-        const ships = data[fandom];
-        const fandomMatch = fandom.toLowerCase().includes(lowerFilter);
-        const shipMatches = ships.filter(s => s.toLowerCase().includes(lowerFilter));
+        const ships = data[fandom].sort();
+        const fandomMatch = fandom.toLowerCase().includes(filter);
+        const shipMatches = ships.filter(ship => ship.toLowerCase().includes(filter));
 
-        if (filter === "" || fandomMatch || shipMatches.length) {
+        if (fandomMatch || shipMatches.length > 0 || filter === "") {
           matchCount++;
-
           const div = document.createElement("div");
           div.className = "fandom";
 
@@ -158,17 +143,14 @@
           const list = document.createElement("ul");
           list.className = "ships";
 
-          // Show all ships if the fandom matches, otherwise only the filtered ones
           (fandomMatch ? ships : shipMatches).forEach(ship => {
             const li = document.createElement("li");
             li.textContent = ship;
             list.appendChild(li);
           });
 
-          // ----- toggle logic -----
           title.onclick = () => {
-            const isOpen = div.classList.toggle("open");
-            list.style.display = isOpen ? "block" : "none";
+            list.style.display = list.style.display === "none" ? "block" : "none";
           };
 
           div.appendChild(title);
@@ -182,17 +164,12 @@
       }
     }
 
-    document.getElementById("search").addEventListener("input", e => {
-      renderDirectory(allData, e.target.value);
+    document.getElementById("search").addEventListener("input", (e) => {
+      const filter = e.target.value.toLowerCase();
+      renderDirectory(allData, filter);
     });
 
-    // start loading
     loadShips();
   </script>
 </body>
 </html>
-
-<script>
-  
-  
-</script>
