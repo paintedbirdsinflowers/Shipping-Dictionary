@@ -60,6 +60,14 @@
       margin-bottom: 0.5rem;
     }
 
+    #count {
+      color: var(--subtext);
+      font-size: 1rem;
+      margin-top: 0.25rem;
+      margin-bottom: 0.75rem;
+      transition: var(--transition);
+    }
+
     .controls {
       display: flex;
       gap: 1rem;
@@ -221,18 +229,9 @@
       font-size: 0.9rem;
     }
 
-    @keyframes fadeIn {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; max-height: 0; }
-      to { opacity: 1; max-height: 400px; }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 400px; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 600px) {
       h1 { font-size: 1.8rem; }
@@ -245,7 +244,9 @@
   <div class="container">
     <header>
       <h1>Shipping Dictionary</h1>
-      A list of every ship to exist, for every fandom. Always growing.      <div class="controls">
+      <p id="count">Loading ship count...</p>
+      A list of every ship to exist, for every fandom. Always growing.
+      <div class="controls">
         <input type="text" id="search" placeholder="Search fandoms or ships...">
         <div class="theme-toggle" id="themeToggle">Moon</div>
       </div>
@@ -261,6 +262,7 @@
     const directory = document.getElementById("directory");
     const searchInput = document.getElementById("search");
     const themeToggle = document.getElementById("themeToggle");
+    const countDisplay = document.getElementById("count");
 
     // Theme toggle
     themeToggle.addEventListener("click", () => {
@@ -269,6 +271,18 @@
       themeToggle.textContent = isDark ? "Moon" : "Sun";
     });
 
+    // Count-up animation helper
+    function animateCount(element, start, end, duration) {
+      const startTime = performance.now();
+      function update(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const value = Math.floor(start + (end - start) * progress);
+        element.textContent = value;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
     // Load ships
     async function loadShips() {
       try {
@@ -276,10 +290,21 @@
         if (!res.ok) throw new Error("Not found");
         const data = await res.json();
         allData = data;
+
+        // Count fandoms and ships
+        const fandomCount = Object.keys(allData).length;
+        const shipCount = Object.values(allData).reduce((sum, s) => sum + s.length, 0);
+
+        // Animate the counts
+        countDisplay.innerHTML = `💞 Currently listing <span id="shipNum">0</span> ships across <span id="fandomNum">0</span> fandoms`;
+        animateCount(document.getElementById("shipNum"), 0, shipCount, 800);
+        animateCount(document.getElementById("fandomNum"), 0, fandomCount, 800);
+
         render(allData);
         directory.className = "";
       } catch (e) {
         directory.innerHTML = "<p class='no-matches'>Error loading ships.json</p>";
+        countDisplay.textContent = "Unable to load ship count 💔";
       }
     }
 
@@ -288,7 +313,6 @@
       directory.innerHTML = "";
       const lower = query.toLowerCase();
       const fandoms = Object.keys(data).sort();
-
       let visible = 0;
       let delay = 0;
 
