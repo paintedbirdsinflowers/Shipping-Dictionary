@@ -1,57 +1,68 @@
-{ 
-  "Agatha All Along": [  "Agathario, Riotha, Ario, Riaga – Agatha Harkness/Rio Vidal"],
-  "Barbie as The Princess and the Pauper (2004)": ["GenPrem – Genevieve/Preminger"],
-  "Criminal Minds":  ["Demily —  Derek Morgan/Emilly Prentiss", 
-"Garvez — Penelope Garcia/Luke Alvez",
-"Gotch — Penelope Garcia/Aaron Hotchner",  "Hotchniss  – Aaron Hotchner/Emilly Prentiss",  "Jeid — Jennifer Jareau/Spencer Reid", "Jotch — Jennifer Jareau /Aaron Hotchner", "Katt — the ship between Kristy Simmons/ Matt Simmons"],
+{
+  "Agatha All Along": [
+    "Agathario, Riotha, Ario, Riaga – Agatha Harkness/Rio Vidal"
+  ],
+  "Barbie as The Princess and the Pauper (2004)": [
+    "GenPrem – Genevieve/Preminger"
+  ],
+  "Criminal Minds": [
+    "Demily – Derek Morgan/Emily Prentiss",
+    "Garvez – Penelope Garcia/Luke Alvez",
+    "Gotch – Penelope Garcia/Aaron Hotchner",
+    "Hotchniss – Aaron Hotchner/Emily Prentiss",
+    "Jeid – Jennifer Jareau/Spencer Reid",
+    "Jotch – Jennifer Jareau/Aaron Hotchner",
+    "Katt – Kristy Simmons/Matt Simmons"
+  ],
   "Doctor Who": [
-    "Dust Buddies - Kate Lethbridge-Stewart/Christofer Ibrahim",
-    "Prate - Kate Lethbridge-Stewart/The Grand Serpent",
-    "TenMartha - Tenth Doctor/Martha Jones",
-    "Yowzah, ElevenRiver - Eleventh Doctor/River Song",
-    "TwelveRiver - Twelfth Doctor/River Song",
-    "Twissy - Twelfth Doctor/Missy",
-    "Rissy - River Song/Missy",
-    "Thasmin - Thirteenth Doctor/Yasmin Khan",
+    "Dust Buddies – Kate Lethbridge-Stewart/Christofer Ibrahim",
+    "Prate – Kate Lethbridge-Stewart/The Grand Serpent",
+    "TenMartha – Tenth Doctor/Martha Jones",
+    "Yowzah, ElevenRiver – Eleventh Doctor/River Song",
+    "TwelveRiver – Twelfth Doctor/River Song",
+    "Twissy – Twelfth Doctor/Missy",
+    "Rissy – River Song/Missy",
+    "Thasmin – Thirteenth Doctor/Yasmin Khan",
     "Spacewives – Thirteenth Doctor/River Song",
     "Thoschody – The Doctor/River Song/The Master"
   ],
   "DCU (Comics)": [
-    "DickRoy - Roy Harper/Dick Grayson",
-    "SuperBat - Clark Kent/Bruce Wayne"
+    "DickRoy – Roy Harper/Dick Grayson",
+    "SuperBat – Clark Kent/Bruce Wayne"
   ],
-  
   "Good Omens": [
     "Ineffable Husbands – Aziraphale/Crowley",
     "Heavenly Chaos – Gabriel/Beelzebub"
   ],
-
   "House of the Dragon, A Song of Ice and Fire": [
-    "Chaos Cousins - Daemon Targaryen/Rhaenys Targaryen Velaryon"
+    "Chaos Cousins – Daemon Targaryen/Rhaenys Targaryen Velaryon"
   ],
-  
   "Marvel (MCU)": [
-    "Stucky – Steve Rogers/Bucky Barnes"],
-  "Maryland (2023)": ["RosaJac – Rosaline Ward/Jacob"],
-
+    "Stucky – Steve Rogers/Bucky Barnes"
+  ],
+  "Maryland (2023)": [
+    "RosaJac – Rosaline Ward/Jacob"
+  ],
   "Nurse Jackie": [
-    "Coopara - O'Hara/Cooper"
+    "Coopara – O'Hara/Cooper"
   ],
   "Star Trek Voyager": [
-    "S7 - Kathryn Janeway/Seven of Nine"],
-  
+    "S7 – Kathryn Janeway/Seven of Nine"
+  ],
   "Star Wars": [
     "Reylo – Rey/Kylo Ren",
     "FinnPoe – Finn/Poe Dameron"
-     ],
-  "The Hunger Games":[
-"Everlark – Katniss Everdeen/Peeta Mellark",
-"Hayffie – Haymitch Abernathy/Effie Trinket"],
-
-  "The X Files": [
-    "MSR - Mulder/Scully",
-    "SSR - Skinner/Scully"
   ],
-  "Wheel of Time": [    "Loraine - Moiraine Damodred/Lan Mandragoran",    "Morand - Rand al'Thor/Moiraine Damodred" 
+  "The Hunger Games": [
+    "Everlark – Katniss Everdeen/Peeta Mellark",
+    "Hayffie – Haymitch Abernathy/Effie Trinket"
+  ],
+  "The X Files": [
+    "MSR – Mulder/Scully",
+    "SSR – Skinner/Scully"
+  ],
+  "Wheel of Time": [
+    "Loraine – Moiraine Damodred/Lan Mandragoran",
+    "Morand – Rand al'Thor/Moiraine Damodred"
   ]
 }
