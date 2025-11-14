@@ -1,377 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shipping Dictionary</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #faf9f8;
-      --card: rgba(255, 255, 255, 0.92);
-      --border: rgba(0, 0, 0, 0.08);
-      --accent: #7c3aed;
-      --accent-hover: #6d28d9;
-      --text: #1f2937;
-      --subtext: #6b7280;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-      --radius: 16px;
-      --transition: all 0.25s ease;
-    }
+<meta charset="UTF-8">
+<title>Shipping Directory</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    [data-theme="dark"] {
-      --bg: #0f0f1a;
-      --card: rgba(20, 20, 35, 0.85);
-      --border: rgba(255, 255, 255, 0.1);
-      --text: #f3f4f6;
-      --subtext: #9ca3af;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #faf8ff;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      padding: 1.5rem;
-      transition: var(--transition);
-    }
+  #counter {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+  }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-    }
+  .search-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .search-box input {
+    width: 90%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
 
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+  /* Category Button Row */
+  .filters {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .filters button {
+    margin: 5px;
+    padding: 8px 14px;
+    border-radius: 16px;
+    border: none;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .filters button.active {
+    box-shadow: 0 0 0 2px #555 inset;
+    font-weight: bold;
+  }
+  .filters button:hover {
+    transform: scale(1.05);
+  }
 
-    h1 {
-      font-size: 2.1rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
+  /* Fandom sections */
+  details {
+    background: rgba(255,255,255,0.5);
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border-radius: 14px;
+  }
 
-    #count {
-      color: var(--subtext);
-      font-size: 1rem;
-      margin-top: 0.25rem;
-      margin-bottom: 0.75rem;
-      transition: var(--transition);
-    }
+  summary {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
 
-    .controls {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      margin: 1.5rem 0;
-    }
+  .ship {
+    margin-left: 10px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+  }
 
-    input[type="text"] {
-      padding: 0.75rem 1.2rem;
-      width: 100%;
-      max-width: 440px;
-      font-size: 1rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      outline: none;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    }
+  /* CATEGORY COLORS */
+  .femslash { background: #e6ccff; } /* violet */
+  .slash { background: #ccffcc; }     /* green */
+  .het { background: #ffcccc; }       /* red */
+  .nb { background: #ffd9a6; }        /* orange */
+  .multi { background: #c9f4f6; }     /* teal */
 
-    input[type="text"]:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
-    }
-
-    .theme-toggle {
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      backdrop-filter: blur(10px);
-      transition: var(--transition);
-    }
-
-    .theme-toggle:hover {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
-    #directory {
-      display: grid;
-      gap: 1.2rem;
-      margin-top: 1rem;
-    }
-
-    .fandom {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.2rem 1.4rem;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeIn 0.4s ease-out forwards;
-      transition: var(--transition);
-    }
-
-    .fandom:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
-    }
-
-    .fandom h2 {
-      margin: 0;
-      cursor: pointer;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      user-select: none;
-    }
-
-    .fandom h2::after {
-      content: "⬇️";
-      font-size: 0.9rem;
-      color: var(--subtext);
-      transition: transform 0.3s ease;
-    }
-
-    .fandom.open h2::after {
-      transform: rotate(180deg);
-    }
-
-    .ships {
-      margin-top: 0.8rem;
-      padding-left: 1.4rem;
-      display: none;
-      animation: slideDown 0.35s ease-out;
-    }
-
-    .ships li {
-      margin: 0.3rem 0;
-      color: var(--subtext);
-      list-style: none;
-      position: relative;
-      padding-left: 1.2rem;
-      transition: var(--transition);
-    }
-
-    .ships li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: bold;
-    }
-
-    .ships li.highlight {
-      background: rgba(124, 58, 237, 0.12);
-      border-radius: 8px;
-      padding: 0.2rem 0.5rem;
-      display: inline-block;
-      width: fit-content;
-    }
-
-    .no-matches {
-      text-align: center;
-      padding: 2.5rem;
-      color: var(--subtext);
-      font-style: italic;
-    }
-
-    .loading {
-      text-align: center;
-      color: var(--subtext);
-      padding: 2rem;
-      font-style: italic;
-    }
-
-    .loading::after {
-      content: "";
-      display: inline-block;
-      width: 1.2rem;
-      height: 1.2rem;
-      border: 2px solid var(--accent);
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-left: 0.5rem;
-    }
-
-    footer {
-      text-align: center;
-      margin: 3rem 0 1rem;
-      color: var(--subtext);
-      font-size: 0.9rem;
-    }
-
-    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 400px; } }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 1.8rem; }
-      .controls { flex-direction: column; align-items: stretch; }
-      input[type="text"] { max-width: 100%; }
-    }
-  </style>
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Shipping Dictionary</h1>
-      <p id="count">Loading ship count...</p>
-      A list of every ship to exist, for every fandom. Always growing.
-      <div class="controls">
-        <input type="text" id="search" placeholder="Search fandoms or ships...">
-        <div class="theme-toggle" id="themeToggle">Moon</div>
-      </div>
-    </header>
 
-    <div id="directory" class="loading">Loading ships...</div>
+<h1>Shipping Directory</h1>
+<div id="counter">Loading ships…</div>
 
-    <footer>Shipping Dictionary</footer>
-  </div>
+<div class="search-box">
+  <input id="search" type="text" placeholder="Search ships or fandoms…">
+</div>
 
-  <script>
-    let allData = {};
-    const directory = document.getElementById("directory");
-    const searchInput = document.getElementById("search");
-    const themeToggle = document.getElementById("themeToggle");
-    const countDisplay = document.getElementById("count");
+<div class="filters">
+  <button data-filter="all" class="active">All</button>
+  <button data-filter="femslash">Femslash</button>
+  <button data-filter="slash">Slash</button>
+  <button data-filter="het">Het</button>
+  <button data-filter="nb">NB</button>
+  <button data-filter="multi">Multi</button>
+</div>
 
-    // Theme toggle
-    themeToggle.addEventListener("click", () => {
-      const isDark = document.body.getAttribute("data-theme") === "dark";
-      document.body.setAttribute("data-theme", isDark ? "light" : "dark");
-      themeToggle.textContent = isDark ? "Moon" : "Sun";
+<div id="directory"></div>
+
+<script>
+let DATA = {};
+let currentFilter = "all";
+let searchTerm = "";
+
+async function loadShips() {
+  const response = await fetch("ships.json");
+  DATA = await response.json();
+  render();
+}
+
+function render() {
+  let directory = document.getElementById("directory");
+  directory.innerHTML = "";
+  
+  let totalShips = 0;
+  let filteredShips = 0;
+
+  const searchLower = searchTerm.toLowerCase();
+
+  for (const fandom of Object.keys(DATA).sort()) {
+    const ships = DATA[fandom];
+
+    let fandomContainer = document.createElement("details");
+    let summary = document.createElement("summary");
+    summary.textContent = fandom;
+    fandomContainer.appendChild(summary);
+
+    let showFandom = false;
+
+    ships.forEach(item => {
+      const shipName = item.ship;
+      const category = item.category || "het"; // default fallback
+
+      const matchesFilter =
+        currentFilter === "all" || category === currentFilter;
+
+      const matchesSearch =
+        shipName.toLowerCase().includes(searchLower) ||
+        fandom.toLowerCase().includes(searchLower);
+
+      totalShips++;
+
+      if (matchesFilter && matchesSearch) {
+        filteredShips++;
+        showFandom = true;
+
+        let div = document.createElement("div");
+        div.className = "ship " + category;
+        div.textContent = shipName;
+        fandomContainer.appendChild(div);
+      }
     });
 
-    // Count-up animation helper
-    function animateCount(element, start, end, duration) {
-      const startTime = performance.now();
-      function update(now) {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const value = Math.floor(start + (end - start) * progress);
-        element.textContent = value;
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
+    // Always show fandom headings (Option 2)
+    if (showFandom || searchTerm === "") {
+      directory.appendChild(fandomContainer);
     }
+  }
 
-    // Load ships
-    async function loadShips() {
-      try {
-        const res = await fetch("ships.json");
-        if (!res.ok) throw new Error("Not found");
-        const data = await res.json();
-        allData = data;
+  document.getElementById("counter").textContent =
+    `Total ships: ${totalShips} | Showing: ${filteredShips}`;
+}
 
-        // Count fandoms and ships
-        const fandomCount = Object.keys(allData).length;
-        const shipCount = Object.values(allData).reduce((sum, s) => sum + s.length, 0);
+/* Search handler */
+document.getElementById("search").addEventListener("input", e => {
+  searchTerm = e.target.value;
+  render();
+});
 
-        // Animate the counts
-        countDisplay.innerHTML = `💞 Currently listing <span id="shipNum">0</span> ships across <span id="fandomNum">0</span> fandoms`;
-        animateCount(document.getElementById("shipNum"), 0, shipCount, 800);
-        animateCount(document.getElementById("fandomNum"), 0, fandomCount, 800);
+/* Category buttons */
+document.querySelectorAll(".filters button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach(b =>
+      b.classList.remove("active")
+    );
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
+    render();
+  });
+});
 
-        render(allData);
-        directory.className = "";
-      } catch (e) {
-        directory.innerHTML = "<p class='no-matches'>Error loading ships.json</p>";
-        countDisplay.textContent = "Unable to load ship count 💔";
-      }
-    }
+loadShips();
+</script>
 
-    // Render
-    function render(data, query = "") {
-      directory.innerHTML = "";
-      const lower = query.toLowerCase();
-      const fandoms = Object.keys(data).sort();
-      let visible = 0;
-      let delay = 0;
-
-      fandoms.forEach(fandom => {
-        const ships = data[fandom];
-        const fandomMatch = fandom.toLowerCase().includes(lower);
-        const matches = ships.filter(s => s.toLowerCase().includes(lower));
-
-        if (!query || fandomMatch || matches.length) {
-          visible++;
-          const div = document.createElement("div");
-          div.className = "fandom";
-          div.style.animationDelay = `${delay}s`;
-          delay += 0.04;
-
-          const h2 = document.createElement("h2");
-          h2.textContent = fandom;
-
-          const ul = document.createElement("ul");
-          ul.className = "ships";
-
-          const toShow = fandomMatch ? ships : matches;
-          toShow.forEach(ship => {
-            const li = document.createElement("li");
-            if (query && ship.toLowerCase().includes(lower)) {
-              li.classList.add("highlight");
-              const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, "gi");
-              li.innerHTML = ship.replace(regex, "<mark>$1</mark>");
-            } else {
-              li.textContent = ship;
-            }
-            ul.appendChild(li);
-          });
-
-          h2.onclick = () => {
-            const isOpen = ul.style.display === "block";
-            ul.style.display = isOpen ? "none" : "block";
-            div.classList.toggle("open", !isOpen);
-          };
-
-          div.appendChild(h2);
-          div.appendChild(ul);
-          directory.appendChild(div);
-        }
-      });
-
-      if (!visible) {
-        directory.innerHTML = `<p class='no-matches'>No results for "${query}"</p>`;
-      }
-    }
-
-    // Search with debounce
-    let timeout;
-    searchInput.addEventListener("input", e => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => render(allData, e.target.value), 180);
-    });
-
-    loadShips();
-  </script>
 </body>
 </html>
