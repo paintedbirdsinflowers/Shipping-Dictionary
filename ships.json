@@ -58,13 +58,13 @@
   "category": "het"},
  { "ship": "Gotch – Penelope Garcia/Aaron Hotchner",
    "category": "het"},
-    "Hotchniss – Aaron Hotchner/Emily Prentiss",
-    "Jeid – Jennifer Jareau/Spencer Reid",
-    "Jotch – Jennifer Jareau/Aaron Hotchner",
-    "Katt – Kristy Simmons/Matt Simmons",
-    "Maxcer —  Max Brenner/Spencer Reid",
-"Morcia — Morgan/Penelope Garcia",
-"Prendoza — Emily Prentiss/Andrew Mendoza"
+  { "ship":  "Hotchniss – Aaron Hotchner/Emily Prentiss",
+    "category": "het"},    
+   { "ship": "Jeid – Jennifer Jareau/Spencer Reid",
+  "category": "het"},
+  { "ship": "Jotch – Jennifer Jareau/Aaron Hotchner",
+    "category": "het"}
+  
 
   ],
 
