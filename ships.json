@@ -82,7 +82,12 @@
       "category": "multi"
     },
     { "ship": "Twissy – Twelfth Doctor/Missy",
-      "category": "nb"}
-    
+      "category": "nb"},
+    { "ship": "Thoschei – The Doctor/Master",
+      "category": "nb"},
+    { "ship":     "Thasmin – Thirteenth Doctor/Yasmin Khan",
+      "category": "femslash"},
+    {"ship": "Rissy – Missy/River Song", 
+      "category": "femslash"}
   ]
 }
