@@ -81,11 +81,15 @@
       "ship": "Thoschody – The Doctor/River Song/The Master",
       "category": "multi"
     },
-    { "ship": "Twissy – Twelfth Doctor/Missy",
-      "category": "nb"},
-    { "ship": "Thoschei – The Doctor/Master",
-      "category": "nb"},
-        {
+    {
+      "ship": "Twissy – Twelfth Doctor/Missy",
+      "category": "nb"
+    },
+    {
+      "ship": "Thoschei – The Doctor/Master",
+      "category": "nb"
+    },
+    {
       "ship": "Thasmin – Thirteenth Doctor/Yasmin Khan",
       "category": "nb"
     },
@@ -94,11 +98,15 @@
       "category": "nb"
     }
   ],
- 
-  "DCU (Comics)": [
- { "ship": "DickRoy – Roy Harper/Dick Grayson",
-    "category":"slash"},    
-{"ship": "SuperBat – Clark Kent/Bruce Wayne", "category": "slash"}
 
-  
+  "DCU (Comics)": [
+    {
+      "ship": "DickRoy – Roy Harper/Dick Grayson",
+      "category": "slash"
+    },
+    {
+      "ship": "SuperBat – Clark Kent/Bruce Wayne",
+      "category": "slash"
+    }
   ]
+}
