@@ -85,9 +85,14 @@
       "category": "nb"},
     { "ship": "Thoschei – The Doctor/Master",
       "category": "nb"},
-    { "ship":     "Thasmin – Thirteenth Doctor/Yasmin Khan",
-      "category": "femslash"},
-    {"ship": "Rissy – Missy/River Song", 
-      "category": "femslash"}
+        {
+      "ship": "Thasmin – Thirteenth Doctor/Yasmin Khan",
+      "category": "femslash"
+    },
+    {
+      "ship": "Rissy – Missy/River Song",
+      "category": "femslash"
+    }
+  ]
   ]
 }
