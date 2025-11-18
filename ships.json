@@ -125,6 +125,23 @@
     { "ship":"Sukeve — Suki Panesar/Eve Unwin",
       "category": "femslash"}
 
-      ]
+      ],
+
+  
+  "Good Omens": [ 
+    {
+ "ship": "Ineffable Husbands – Aziraphale/Crowley",
+"category": "non binary"}
+
+  ],
+  "House of the Dragon, A Song of Ice and Fire": [ { 
+   "ship": "Chaos Cousins – Daemon Targaryen/Rhaenys Targaryen Velaryon",
+    "category": "het"}
+  ],
+  "Marvel (MCU)": [ {
+   "ship": "Stucky – Steve Rogers/Bucky Barnes",
+    "category": "slash"}
+  ],
+
 
 }
